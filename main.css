@@ -1,0 +1,150 @@
+/* Cores baseadas no Logotipo VHOX */
+        :root {
+            --vhox-navy: #001a3d; /* Azul Marinho do Fundo */
+            --vhox-green: #8cc63f; /* Verde Limão do Logo */
+            --vhox-white: #ffffff;
+        }
+        
+        body { font-family: 'Segoe UI', Roboto, sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
+        
+        .bg-vhox-navy { background-color: var(--vhox-navy); }
+        .text-vhox-navy { color: var(--vhox-navy) !important; }
+        .text-vhox-green { color: var(--vhox-green); }
+        .bg-vhox-green { background-color: var(--vhox-green); }
+        .border-vhox-green { border-color: var(--vhox-green); }
+
+        .bg-vhox-navy img, .bg-gray-900 img { 
+            width: 250px;
+        }
+
+        /* Mobile Menu Overlay */
+        #mobile-menu {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);;
+            transform: translateX(100%);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            position: fixed; top: 0; right: 0; height: 100%; z-index: 60;
+        }
+
+        #mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(rgba(0, 26, 61, 0.8), rgba(0, 26, 61, 0.9)), url('https://images.unsplash.com/photo-1578916171728-46686eac8d58?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .btn-primary {
+            background-color: var(--vhox-green);
+            color: var(--vhox-navy);
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        /* Forçar visibilidade dos textos do formulário */
+        .form-label {
+            display: block;
+            color: #001a3d !important; /* Azul Marinho Forçado */
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .form-input {
+            width: 100%;
+            background-color: #f8fafc !important;
+            border: 2px solid #e2e8f0 !important;
+            color: #001a3d !important; /* Texto que o usuário digita */
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: var(--vhox-green) !important;
+            outline: none;
+            background-color: #ffffff !important;
+            box-shadow: 0 0 0 3px rgba(140, 198, 63, 0.2);
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 0.75rem;
+            margin-top: 0.2rem;
+            display: none;
+        }
+
+        .vhox-card {
+            background-color: #ffffff !important;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 2.5rem;
+        }
+
+        /* Seção de Obrigado (Oculta por padrão) */
+        #thanks-screen { display: none; }
+
+        /* Card de Vantagens */
+        .funciona-card { transition: transform 0.3 ease; }
+        .funciona-card:hover { transform: translateY(-5px); }
+        .benefit-card { transition: transform 0.3s ease; border-left: 4px solid var(--vhox-green); }
+        .benefit-card:hover { transform: translateY(-5px); }
+
+        /* FAQ Accordion */
+        .faq-item { border-bottom: 1px solid #e5e7eb; }
+        .faq-question { width: 100%; text-align: left; padding: 1.5rem 0; font-weight: 700; color: var(--vhox-navy); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; color: #4b5563; line-height: 1.6; }
+        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 1.5rem; }
+        .faq-item.active i { transform: rotate(180deg); color: var(--vhox-green); }
+
+        /* --- ESTILO BOTÃO WHATSAPP --- */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #128c7e;
+        }
+
+        /* Efeito de Pulso */
+        .whatsapp-float::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #25d366;
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        
