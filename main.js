@@ -24,61 +24,79 @@
         e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
     });
 
-    // Função de Validação
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Impede o envio padrão
+    // Função de Validação e Envio via AJAX
+form.addEventListener('submit', function(event) {
+    event.preventDefault(); // Impede o recarregamento da página
 
-        let isValid = true;
+    let isValid = true;
 
-        // Limpa erros anteriores
-        document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.form-input').forEach(el => el.style.borderColor = '#e2e8f0');
+    // Limpa erros anteriores
+    document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.form-input').forEach(el => el.style.borderColor = '#e2e8f0');
 
-        // Valida Nome
-        const nome = document.getElementById('nome');
-        if (nome.value.trim().length < 3) {
-            document.getElementById('error-nome').style.display = 'block';
-            nome.style.borderColor = '#dc2626';
-            isValid = false;
-        }
+    // Pegar valores
+    const nome = document.getElementById('nome');
+    const email = document.getElementById('email');
+    const tel = document.getElementById('tel');
+    const local = document.getElementById('local');
 
-        // Valida E-mail (Regex simples)
-        const email = document.getElementById('email');
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email.value)) {
-            document.getElementById('error-email').style.display = 'block';
-            email.style.borderColor = '#dc2626';
-            isValid = false;
-        }
+    // Validações básicas
+    if (nome.value.trim().length < 3) {
+        document.getElementById('error-nome').style.display = 'block';
+        nome.style.borderColor = '#dc2626';
+        isValid = false;
+    }
 
-        // Valida Telefone (Mínimo de caracteres para ser um tel válido)
-        if (telInput.value.length < 14) {
-            document.getElementById('error-tel').style.display = 'block';
-            telInput.style.borderColor = '#dc2626';
-            isValid = false;
-        }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.value)) {
+        document.getElementById('error-email').style.display = 'block';
+        email.style.borderColor = '#dc2626';
+        isValid = false;
+    }
 
-        // Valida Select
-        const local = document.getElementById('local');
-        if (local.value === "") {
-            document.getElementById('error-local').style.display = 'block';
-            local.style.borderColor = '#dc2626';
-            isValid = false;
-        }
+    if (tel.value.length < 14) {
+        document.getElementById('error-tel').style.display = 'block';
+        tel.style.borderColor = '#dc2626';
+        isValid = false;
+    }
 
-        if (isValid) {
-                // Efeito de Redirecionamento para a página de Obrigado
+    if (local.value === "") {
+        document.getElementById('error-local').style.display = 'block';
+        local.style.borderColor = '#dc2626';
+        isValid = false;
+    }
+
+    // SE ESTIVER TUDO CERTO, ENVIA PARA O FORMSPREE
+    if (isValid) {
+        const formData = new FormData(this); // Captura todos os dados do formulário
+        
+        // Adiciona um feedback visual no botão
+        const btn = this.querySelector('button');
+        const btnOriginalText = btn.innerText;
+        btn.innerText = "ENVIANDO...";
+        btn.disabled = true;
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                // SUCESSO: Mostra sua tela de obrigado
                 userNameSpan.innerText = nome.value.split(' ')[0];
                 formContainer.style.display = 'none';
                 thanksScreen.style.display = 'block';
-                window.scrollTo({ top: document.getElementById('contato').offsetTop, behavior: 'smooth' });
+            } else {
+                alert("Erro ao enviar. Por favor, tente novamente mais tarde.");
+                btn.innerText = btnOriginalText;
+                btn.disabled = false;
             }
-
-            // Interceptação para mostrar tela de sucesso (Opcional, o Formspree já tem uma própria, mas esta deixa mais bonito)
-        const form = document.getElementById('contactForm');
-        form.onsubmit = function() {
-            // Se quiser que o usuário fique na sua página, você pode usar AJAX, 
-            // mas o padrão do Formspree funciona muito bem redirecionando para o sucesso deles.
-        };
-
-    });
+        }).catch(error => {
+            alert("Erro de conexão. Verifique sua internet.");
+            btn.innerText = btnOriginalText;
+            btn.disabled = false;
+        });
+    }
+});
